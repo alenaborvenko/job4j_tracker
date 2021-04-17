@@ -1,7 +1,5 @@
 package ru.job4j.oop;
 
-import java.util.concurrent.Callable;
-
 public class Cat {
     private String food;
     private String name;
