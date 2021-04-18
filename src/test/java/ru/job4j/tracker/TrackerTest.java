@@ -49,4 +49,38 @@ public class TrackerTest {
         int rsl = bugWithDesc.getId();
         assertThat(rsl, is(0));
     }
+
+    @Test
+    public void whenDelete() {
+        Tracker tracker = new Tracker();
+        Item bug = new Item();
+        bug.setName("Bug");
+        tracker.add(bug);
+        int id = bug.getId();
+        tracker.delete(id);
+        assertThat(tracker.findById(id), is(nullValue()));
+    }
+
+    @Test
+    public void whenDeleteNotFoundId() {
+        Tracker tracker = new Tracker();
+        int id = 0;
+        assertThat(tracker.delete(id),  is(false));
+    }
+
+    @Test
+    public void whenDeleteMiddle() {
+        Tracker tracker = new Tracker();
+        Item first = new Item("first");
+        Item second = new Item("second");
+        Item third = new Item("third");
+        tracker.add(first);
+        tracker.add(second);
+        tracker.add(third);
+        int id = second.getId();
+        tracker.delete(id);
+        assertThat(tracker.findById(first.getId()), is(first));
+        assertThat(tracker.findById(third.getId()), is(third));
+        assertThat(tracker.findById(id), is(nullValue()));
+    }
 }
