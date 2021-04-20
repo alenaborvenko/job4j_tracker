@@ -1,6 +1,12 @@
 package ru.job4j.tracker;
 
 public class StartUI {
+    private final Output out;
+
+    public StartUI(Output out) {
+        this.out = out;
+    }
+
     public static void createItem(Input input, Tracker tracker) {
         System.out.println("=== Create a new Item ====");
         String name = input.askStr("Enter name: ");
@@ -85,10 +91,11 @@ public class StartUI {
     }
 
     public static void main(String[] args) {
+        Output out = new ConsoleOutput();
         Input input = new ConsoleInput();
         Tracker tracker = new Tracker();
         UserAction[] actions = {
-                new CreateAction(),
+                new CreateAction(out),
                 new ShowAllAction(),
                 new ReplaceAction(),
                 new DeleteAction(),
@@ -96,6 +103,6 @@ public class StartUI {
                 new FindByNameAction(),
                 new ExitAction()
         };
-        new StartUI().init(input, tracker, actions);
+        new StartUI(out).init(input, tracker, actions);
     }
 }
