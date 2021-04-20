@@ -32,6 +32,19 @@ public class StartUITest {
     }
 
     @Test
+    public void whenReplaceItemMethodDelete() {
+        Tracker tracker = new Tracker();
+        Item item = new Item("new Item");
+        tracker.add(item);
+        String[] answers = new String[]{
+                String.valueOf(item.getId()),
+                "delete item"};
+        StartUI.deleteItem(new StubInput(answers), tracker);
+        Item replaced = tracker.findById(item.getId());
+        assertThat(replaced, is(nullValue()));
+    }
+
+    @Test
     public void whenCreateItem() {
         Input in = new StubInput(
                 new String[] {"0", "Item name", "1"}
