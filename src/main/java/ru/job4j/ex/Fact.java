@@ -2,9 +2,6 @@ package ru.job4j.ex;
 
 public class Fact {
     public static void main(String[] args) {
-        System.out.println(calc(0));
-        System.out.println(calc(4));
-        System.out.println(calc(-1));
     }
 
     public static int calc(int n) {
