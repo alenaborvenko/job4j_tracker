@@ -9,18 +9,6 @@ import static org.junit.Assert.*;
 public class StartUITest {
 
     @Test
-    public void whenReplaceItemMethodDelete() {
-        Tracker tracker = new Tracker();
-        Item item = new Item("new Item");
-        tracker.add(item);
-        String[] answers = new String[]{
-                String.valueOf(item.getId())};
-        StartUI.deleteItem(new StubInput(answers), tracker);
-        Item replaced = tracker.findById(item.getId());
-        assertThat(replaced, is(nullValue()));
-    }
-
-    @Test
     public void whenCreateItem() {
         Output out = new StubOutput();
         Input in = new StubInput(
