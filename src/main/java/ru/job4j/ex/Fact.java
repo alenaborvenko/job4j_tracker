@@ -2,9 +2,12 @@ package ru.job4j.ex;
 
 public class Fact {
     public static void main(String[] args) {
+        System.out.println(calc(0));
+        System.out.println(calc(4));
+        System.out.println(calc(-1));
     }
 
-    public int calc(int n) {
+    public static int calc(int n) {
         if (n < 0) {
             throw new IllegalArgumentException("Agrument can't be negative");
         }
