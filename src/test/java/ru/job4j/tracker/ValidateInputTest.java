@@ -19,7 +19,7 @@ public class ValidateInputTest {
     }
 
     @Test
-    public void whenInvalidInputMinusNumber() {
+    public void whenMinusNumber() {
         Output out = new StubOutput();
         Input in = new StubInput(
                 new String[] {"-1"}
@@ -30,7 +30,7 @@ public class ValidateInputTest {
     }
 
     @Test
-    public void whenInvalidInputCorrectInput() {
+    public void whenCorrectInput() {
         Output out = new StubOutput();
         Input in = new StubInput(
                 new String[] {"0"}
@@ -41,14 +41,13 @@ public class ValidateInputTest {
     }
 
     @Test
-    public void whenInvalidInput2CorrectInput() {
+    public void when3CorrectInput() {
         Output out = new StubOutput();
-        String[] answer = new String[] {"0", "3", "2"};
         Input in = new StubInput(
-                answer
+                new String[] {"0", "3", "2"}
         );
         ValidateInput input = new ValidateInput(out, in);
-        int[] selected = new int[answer.length];
+        int[] selected = new int[3];
         selected[0] = input.askInt("Enter menu:");
         selected[1] = input.askInt("Enter menu:");
         selected[2] = input.askInt("Enter menu:");
