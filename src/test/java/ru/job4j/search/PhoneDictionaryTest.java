@@ -65,4 +65,17 @@ public class PhoneDictionaryTest {
         ArrayList<Person> persons = phones.find("Bry");
         assertThat(persons.get(0).getAddress(), is("Bryansk"));
     }
+
+    @Test
+    public void whenNotFindThenEmptyCollection() {
+        PhoneDictionary phones = new PhoneDictionary();
+        phones.add(
+                new Person("Petr", "Arsentev", "534872", "Bryansk")
+        );
+        phones.add(
+                new Person("Rex", "Smitt", "865765", "nsk")
+        );
+        ArrayList<Person> persons = phones.find("cat");
+        assertThat(persons.isEmpty(), is(true));
+    }
 }
