@@ -7,6 +7,7 @@ import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class PhoneDictionaryTest {
     @Test
@@ -67,7 +68,7 @@ public class PhoneDictionaryTest {
     }
 
     @Test
-    public void whenNotFindThenEmptyCollection() {
+    public void whenNotFoundThenEmptyCollection() {
         PhoneDictionary phones = new PhoneDictionary();
         phones.add(
                 new Person("Petr", "Arsentev", "534872", "Bryansk")
@@ -76,6 +77,6 @@ public class PhoneDictionaryTest {
                 new Person("Rex", "Smitt", "865765", "nsk")
         );
         ArrayList<Person> persons = phones.find("cat");
-        assertThat(persons.isEmpty(), is(true));
+        assertTrue(persons.isEmpty());
     }
 }
