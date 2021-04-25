@@ -92,7 +92,7 @@ public class JobTest {
         Comparator<Job> cmpNameDescThenPriorityInc = new JobNameDesc()
                 .thenComparing(new JobPriorityIncrease());
         int rsl = cmpNameDescThenPriorityInc.compare(
-                new Job("Def", 0),
+                new Job("Abc", 0),
                 new Job("Abc", 1)
         );
         assertThat(rsl, lessThan(0));
@@ -104,9 +104,9 @@ public class JobTest {
                 .thenComparing(new JobPriorityIncrease());
         int rsl = cmpNameDescThenPriorityInc.compare(
                 new Job("Abc", 0),
-                new Job("Def", 1)
+                new Job("Abc", 1)
         );
-        assertThat(rsl, greaterThan(0));
+        assertThat(rsl, lessThan(0));
     }
 
     @Test
@@ -115,6 +115,17 @@ public class JobTest {
                 .thenComparing(new JobPriorityIncrease());
         int rsl = cmpNameDescThenPriorityInc.compare(
                 new Job("Abc", 0),
+                new Job("Abc", 20)
+        );
+        assertThat(rsl, lessThan(0));
+    }
+
+    @Test
+    public void whenCompatorByPriorityIncreaseThenNameIncreaseThenless() {
+        Comparator<Job> cmpNameDescThenPriorityInc = new JobPriorityIncrease()
+                .thenComparing(new JobNameIncrease());
+        int rsl = cmpNameDescThenPriorityInc.compare(
+                new Job("Abc", 20),
                 new Job("Def", 20)
         );
         assertThat(rsl, lessThan(0));
