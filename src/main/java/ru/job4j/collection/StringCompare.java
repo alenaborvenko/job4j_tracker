@@ -10,7 +10,7 @@ public class StringCompare implements Comparator<String> {
             char first = o1.charAt(i);
             char second = o2.charAt(i);
             if (first != second) {
-                return first - second;
+                return Character.compare(first, second);
             }
         }
         return Integer.compare(o1.length(), o2.length());
