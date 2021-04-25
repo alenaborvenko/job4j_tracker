@@ -15,10 +15,10 @@ after_success:
 notifications:
   email:
     recipients:
-      - alenaborvenko@gmail.com
+      -alenaborvenko@gmail.com
     on_success: never # default: change
     on_failure: always # default: always
-        
+
 env:
-    global:
-      - CODECOV_TOKEN="6c71d521-0d6b-42f8-bbba-168f25184a0a"
+  global:
+    - CODECOV_TOKEN="6c71d521-0d6b-42f8-bbba-168f25184a0a"
