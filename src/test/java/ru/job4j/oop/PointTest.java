@@ -7,7 +7,7 @@ public class PointTest {
 
     @Test
     public void distance3d() {
-        Point a = new Point(0, 0,0);
+        Point a = new Point(0, 0, 0);
         Point b = new Point(4, 0, 7);
         double rsl = a.distance3d(b);
         double expected = 8.062;
@@ -16,7 +16,7 @@ public class PointTest {
 
     @Test
     public void distance3dThen9() {
-        Point a = new Point(0, 5,0);
+        Point a = new Point(0, 5, 0);
         Point b = new Point(4, 1, 7);
         double rsl = a.distance3d(b);
         double expected = 9;

@@ -39,6 +39,7 @@ public class TrackerTest {
         boolean rsl = tracker.replace(id, bugWithDesc);
         assertThat(rsl, is(false));
     }
+
     @Test
     public void whenReplaceNotFindIdAfterCheckId() {
         Tracker tracker = new Tracker();

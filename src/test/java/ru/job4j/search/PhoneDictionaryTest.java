@@ -31,7 +31,7 @@ public class PhoneDictionaryTest {
         List<Person> expected = new ArrayList<>();
         expected.add(person1);
         expected.add(person2);
-        assertThat(persons,is(expected));
+        assertThat(persons, is(expected));
     }
 
     @Test

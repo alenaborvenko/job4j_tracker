@@ -16,7 +16,7 @@ public class BankServiceTest {
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void whenEnterInvalidPassport() throws UserNotFoundException, AccountNotFoundException{
+    public void whenEnterInvalidPassport() throws UserNotFoundException, AccountNotFoundException {
         User user = new User("3434", "Petr Arsentev");
         BankService bank = new BankService();
         bank.addUser(user);
