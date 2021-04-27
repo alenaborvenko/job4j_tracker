@@ -19,5 +19,17 @@ public class LambdaUsage {
         for (String att : atts) {
             System.out.println(att);
         }
+        String[] names = {
+                "Ivan",
+                "Petr"
+        };
+        Comparator<String> lengthCmp = (left, right) -> {
+            System.out.println("execute comparator");
+            return left.length() - right.length();
+        };
+        Arrays.sort(names, lengthCmp);
+        for (String name : names) {
+            System.out.println(name);
+        }
     }
 }
