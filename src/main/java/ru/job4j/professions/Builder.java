@@ -14,6 +14,7 @@ public class Builder extends Engineer {
 
     /**
      * Метод, описывающий строительство дома
+     * @return - новый экземпляр типа House
      */
     public House buildHouse() {
         return new House(1, 1);
