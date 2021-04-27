@@ -1,17 +1,15 @@
 package ru.job4j.stream;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class PositiveNums {
     public static void main(String[] args) {
-        List<Integer> nums = new ArrayList<>();
-        int size = 10;
-        for (int i = 0; i < size; i++) {
-            nums.add(new Random().nextInt());
-        }
+        List<Integer> nums = new ArrayList<>(Arrays.asList(
+                1, -10, 0, 15, 90, -32, 8, -4, 2
+        ));
         System.out.println("Первоначальный массив:");
         for (Integer num : nums) {
             System.out.print(num + " ");
