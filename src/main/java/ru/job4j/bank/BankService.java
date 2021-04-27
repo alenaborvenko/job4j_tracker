@@ -49,17 +49,13 @@ public class BankService {
      *                                      выкидывается UserNotFoundException
      */
     public User findByPassport(String passport) throws UserNotFoundException {
-        User userFound = null;
-        for (User user : users.keySet()) {
-            if (user.getPassport().equals(passport)) {
-                userFound = user;
-                break;
-            }
-        }
-        if (userFound == null) {
-            throw new UserNotFoundException("Cant found user by " + passport + " passport");
-        }
-        return userFound;
+        return users.keySet()
+                .stream()
+                .filter(s -> s.getPassport().equals(passport))
+                .findFirst()
+                .orElseThrow(() -> new UserNotFoundException("Cant found user by " + passport
+                                        + " passport")
+                );
     }
 
     /**
@@ -74,20 +70,13 @@ public class BankService {
      */
     public Account findByRequisite(String passport, String requisite)
             throws AccountNotFoundException, UserNotFoundException {
-        Account accountFound = null;
-        User userFound;
-        userFound = findByPassport(passport);
-        List<Account> accountUser = users.get(userFound);
-        for (Account account : accountUser) {
-            if (account.getRequisite().equals(requisite)) {
-                accountFound = account;
-                break;
-            }
-        }
-        if (accountFound == null) {
-            throw new AccountNotFoundException("Account by " + requisite + " not found");
-        }
-        return accountFound;
+        return users.get(findByPassport(passport))
+                .stream()
+                .filter(s -> s.getRequisite().equals(requisite))
+                .findFirst()
+                .orElseThrow(() -> new AccountNotFoundException("Account by " + requisite
+                        + " not found")
+                );
     }
 
     /**
