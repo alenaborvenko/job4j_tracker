@@ -19,8 +19,8 @@ public class ProfilesTest {
                 new Profile(new Address("Moskow", "Lenina", 67, 89))
         ));
         List<Address> expect = new ArrayList<>(Arrays.asList(
-                new Address("Nsk", "Lenina", 154, 56),
-                new Address("Moskow", "Lenina", 67, 89)
+                new Address("Moskow", "Lenina", 67, 89),
+                new Address("Nsk", "Lenina", 154, 56)
         ));
         List<Address> actual = Profiles.collect(input);
         assertThat(actual, is(expect));
