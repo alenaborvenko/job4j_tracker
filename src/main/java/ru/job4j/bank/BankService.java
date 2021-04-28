@@ -5,8 +5,8 @@ import java.util.*;
 /**
  * Класс, описывающий упрощенную работу банковской системы по поиску пользователя в системе,
  * поиска банковского счета и перевода денег с одного счета на другой
- *  * @author Alena Borvenko
- *  * @version 1.0
+ * * @author Alena Borvenko
+ * * @version 2.0
  */
 public class BankService {
     /**
@@ -28,11 +28,9 @@ public class BankService {
      * Метод добавляющий к существующему пользователю новый счет
      * Если такой счет уже у пользователя существует, то счет не добавляется
      * @param passport - паспорт пользователя, которому нужно добавить счет
-     * @param account - какой счет добавить
-     * @throws UserNotFoundException - если пользователя с таким паспортом в системе
-     *                   не зарегистрировано, то выкидывается UserNotFoundException
+     * @param account  - какой счет добавить
      */
-    public void addAccount(String passport, Account account) throws UserNotFoundException {
+    public void addAccount(String passport, Account account) {
         User user;
         user = findByPassport(passport);
         List<Account> accountUser = users.get(user);
@@ -44,39 +42,32 @@ public class BankService {
     /**
      * Метод, ищущий пользователя в системе по его паспорту
      * @param passport - паспорт
-     * @return - найденный пользователь типа User
-     * @throws UserNotFoundException - если пользователя с таким паспортом не найдено в системе, то
-     *                                      выкидывается UserNotFoundException
+     * @return - найденный пользователь типа User или null, если пользователь не найден
      */
-    public User findByPassport(String passport) throws UserNotFoundException {
+    public User findByPassport(String passport) {
         return users.keySet()
                 .stream()
                 .filter(s -> s.getPassport().equals(passport))
                 .findFirst()
-                .orElseThrow(() -> new UserNotFoundException("Cant found user by " + passport
-                                        + " passport")
-                );
+                .orElse(null);
     }
 
     /**
      * Метод, ищущий счет по паспорту и реквизитам счета
-     * @param passport - паспорт пользователя
+     * @param passport  - паспорт пользователя
      * @param requisite - реквизиты счета
-     * @return найденный счет типа Account
-     * @throws AccountNotFoundException - если у пользователя нет счета с заданными реквизитами, то
-     *                                      выкидывается AccountNotFoundException
-     * @throws UserNotFoundException - если в системе нет пользователя с таким паспортом, то
-     *                                  выкидывается UserNotFoundException
+     * @return найденный счет типа Account или null если аккаунт не найден
      */
-    public Account findByRequisite(String passport, String requisite)
-            throws AccountNotFoundException, UserNotFoundException {
-        return users.get(findByPassport(passport))
-                .stream()
-                .filter(s -> s.getRequisite().equals(requisite))
-                .findFirst()
-                .orElseThrow(() -> new AccountNotFoundException("Account by " + requisite
-                        + " not found")
-                );
+    public Account findByRequisite(String passport, String requisite) {
+        User userFindByPasport = findByPassport(passport);
+        if (userFindByPasport != null) {
+            return users.get(findByPassport(passport))
+                    .stream()
+                    .filter(s -> s.getRequisite().equals(requisite))
+                    .findFirst()
+                    .orElse(null);
+        }
+        return null;
     }
 
     /**
@@ -85,27 +76,22 @@ public class BankService {
      * средств у счета с которого переводят, то метод возращает false
      * ( не успешное выполнение метода) и изменение баланса ни у одного из счетов не происходит.
      * Иначе, с одного счета списывается сумма денег, а на другой добавляется эта же сумма.
-     * @param srcPassport - паспорт пользователя со счета которого требуется перевести
-     * @param srcRequisite - реквизиты счета с которого требуется перевести
-     * @param destPassport - паспорт пользователя на счет которого требуется перевести
+     *
+     * @param srcPassport   - паспорт пользователя со счета которого требуется перевести
+     * @param srcRequisite  - реквизиты счета с которого требуется перевести
+     * @param destPassport  - паспорт пользователя на счет которого требуется перевести
      * @param destRequisite - реквизиты счета на который нужно перевести
-     * @param amount - сумма перевода
+     * @param amount        - сумма перевода
      * @return - true/false (осуществлен ли перевод или нет)
-     * @throws UserNotFoundException - если какой-то из пользователей не найден,
-     *                                  то выкидывается UserNotFoundException
      */
     public boolean transferMoney(String srcPassport, String srcRequisite,
-                                 String destPassport, String destRequisite, double amount)
-            throws UserNotFoundException {
+                                 String destPassport, String destRequisite, double amount) {
         Account sourceAccount;
         Account destAccount;
-        try {
-            sourceAccount = findByRequisite(srcPassport, srcRequisite);
-            destAccount = findByRequisite(destPassport, destRequisite);
-            if (sourceAccount.getBalance() < amount) {
-                return false;
-            }
-        } catch (AccountNotFoundException ex) {
+        sourceAccount = findByRequisite(srcPassport, srcRequisite);
+        destAccount = findByRequisite(destPassport, destRequisite);
+        if (sourceAccount == null || destAccount == null
+                || sourceAccount.getBalance() < amount) {
             return false;
         }
         sourceAccount.setBalance(sourceAccount.getBalance() - amount);

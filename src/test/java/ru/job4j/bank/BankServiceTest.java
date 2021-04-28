@@ -3,29 +3,30 @@ package ru.job4j.bank;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.*;
 
 public class BankServiceTest {
 
     @Test
-    public void addUser() throws UserNotFoundException {
+    public void addUser() {
         User user = new User("3434", "Petr Arsentev");
         BankService bank = new BankService();
         bank.addUser(user);
         assertThat(bank.findByPassport("3434"), is(user));
     }
 
-    @Test(expected = UserNotFoundException.class)
-    public void whenEnterInvalidPassport() throws UserNotFoundException, AccountNotFoundException {
+    @Test
+    public void whenEnterInvalidPassportThenNullValue() {
         User user = new User("3434", "Petr Arsentev");
         BankService bank = new BankService();
         bank.addUser(user);
         bank.addAccount(user.getPassport(), new Account("5546", 150D));
-        assertNull(bank.findByRequisite("34", "5546"));
+        assertThat(bank.findByRequisite("34", "5546"), is(nullValue()));
     }
 
     @Test
-    public void addAccount() throws UserNotFoundException, AccountNotFoundException {
+    public void addAccount() {
         User user = new User("3434", "Petr Arsentev");
         BankService bank = new BankService();
         bank.addUser(user);
@@ -34,7 +35,7 @@ public class BankServiceTest {
     }
 
     @Test
-    public void transferMoney() throws UserNotFoundException, AccountNotFoundException {
+    public void transferMoney() {
         User user = new User("3434", "Petr Arsentev");
         BankService bank = new BankService();
         bank.addUser(user);
@@ -45,7 +46,7 @@ public class BankServiceTest {
     }
 
     @Test
-    public void add2Accounts() throws UserNotFoundException, AccountNotFoundException {
+    public void add2Accounts() {
         User user = new User("3434", "Petr Arsentev");
         BankService bank = new BankService();
         bank.addUser(user);
@@ -55,7 +56,7 @@ public class BankServiceTest {
     }
 
     @Test
-    public void whenTransferAmountMoreBalanceThenFalse() throws UserNotFoundException {
+    public void whenTransferAmountMoreBalanceThenFalse() {
         User user = new User("45", "Bob");
         BankService bank = new BankService();
         bank.addUser(user);
@@ -67,7 +68,7 @@ public class BankServiceTest {
     }
 
     @Test
-    public void whenTransferAnotherUser() throws UserNotFoundException, AccountNotFoundException {
+    public void whenTransferAnotherUser() {
         User user = new User("45", "Bob");
         User user2 = new User("23", "Stive");
         BankService bank = new BankService();
@@ -81,7 +82,7 @@ public class BankServiceTest {
     }
 
     @Test
-    public void whenTransferAccountNotFound() throws UserNotFoundException {
+    public void whenTransferAccountNotFound() {
         User user = new User("45", "Bob");
         User user2 = new User("23", "Stive");
         BankService bank = new BankService();
@@ -94,8 +95,8 @@ public class BankServiceTest {
         assertFalse(astual);
     }
 
-    @Test(expected = UserNotFoundException.class)
-    public void whenTransferUserNotFound() throws UserNotFoundException {
+    @Test
+    public void whenTransferUserNotFound() {
         User user = new User("45", "Bob");
         User user2 = new User("23", "Stive");
         BankService bank = new BankService();
@@ -103,6 +104,8 @@ public class BankServiceTest {
         bank.addUser(user2);
         bank.addAccount(user.getPassport(), new Account("1111", 30D));
         bank.addAccount(user2.getPassport(), new Account("1122", 50D));
-        bank.transferMoney(user.getPassport(), "1111", "67", "1132", 10);
+        boolean actual = bank.transferMoney(user.getPassport(), "1111",
+                "67", "1132", 10);
+        assertFalse(actual);
     }
 }
