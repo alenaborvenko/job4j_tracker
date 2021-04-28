@@ -3,12 +3,12 @@ package ru.job4j.collection;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class OrderConvertTest {
     @Test
@@ -21,7 +21,7 @@ public class OrderConvertTest {
 
     @Test
     public void when3DifferentOrderThen3ElementInHashMap() {
-        List<Order> orders = new ArrayList<>(Arrays.asList(
+        List<Order> orders = new ArrayList<>(List.of(
                 new Order("t4543", "dyhhg"),
                 new Order("76tfj", "gvnh"),
                 new Order("665576", "lyug")
@@ -36,7 +36,7 @@ public class OrderConvertTest {
 
     @Test
     public void when3SameOrderThen1LastElemInHashMap() {
-        List<Order> orders = new ArrayList<>(Arrays.asList(
+        List<Order> orders = new ArrayList<>(List.of(
                 new Order("t4543", "dyhhg"),
                 new Order("t4543", "next Order"),
                 new Order("t4543", "Last order")

@@ -3,7 +3,6 @@ package ru.job4j.tracker;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,13 +13,13 @@ public class SortItemTest {
 
     @Test
     public void whenCompareTo3415Then1345() {
-        List<Item> test = new ArrayList<>(Arrays.asList(
+        List<Item> test = new ArrayList<>(List.of(
                 new Item("3", 3),
                 new Item("4", 4),
                 new Item("1", 1),
                 new Item("5", 5)
         ));
-        List<Item> expected = new ArrayList<>(Arrays.asList(
+        List<Item> expected = new ArrayList<>(List.of(
                 new Item("1", 1),
                 new Item("3", 3),
                 new Item("4", 4),
@@ -32,13 +31,13 @@ public class SortItemTest {
 
     @Test
     public void whenCompare3415Then5431() {
-        List<Item> test = new ArrayList<>(Arrays.asList(
+        List<Item> test = new ArrayList<>(List.of(
                 new Item("3", 3),
                 new Item("4", 4),
                 new Item("1", 1),
                 new Item("5", 5)
         ));
-        List<Item> expected = new ArrayList<>(Arrays.asList(
+        List<Item> expected = new ArrayList<>(List.of(
                 new Item("5", 5),
                 new Item("4", 4),
                 new Item("3", 3),

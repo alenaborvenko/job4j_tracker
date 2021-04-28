@@ -3,8 +3,6 @@ package ru.job4j.stream;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
@@ -15,11 +13,11 @@ public class ProfilesTest {
 
     @Test
     public void whenFewProfile() {
-        List<Profile> input = new ArrayList<>(Arrays.asList(
+        List<Profile> input = new ArrayList<>(List.of(
                 new Profile(new Address("Nsk", "Lenina", 154, 56)),
                 new Profile(new Address("Moskow", "Lenina", 67, 89))
         ));
-        List<Address> expect = new ArrayList<>(Arrays.asList(
+        List<Address> expect = new ArrayList<>(List.of(
                 new Address("Moskow", "Lenina", 67, 89),
                 new Address("Nsk", "Lenina", 154, 56)
         ));
@@ -29,12 +27,12 @@ public class ProfilesTest {
 
     @Test
     public void whenFewProfileNotUniqAdress() {
-        List<Profile> input = new ArrayList<>(Arrays.asList(
+        List<Profile> input = new ArrayList<>(List.of(
                 new Profile(new Address("Nsk", "Lenina", 154, 56)),
                 new Profile(new Address("Moskow", "Lenina", 67, 89)),
                 new Profile(new Address("Nsk", "Lenina", 154, 56))
         ));
-        List<Address> expect = new ArrayList<>(Arrays.asList(
+        List<Address> expect = new ArrayList<>(List.of(
                 new Address("Moskow", "Lenina", 67, 89),
                 new Address("Nsk", "Lenina", 154, 56)
         ));

@@ -3,12 +3,12 @@ package ru.job4j.collection;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 
 public class PassportOfficeTest {
 
@@ -19,7 +19,7 @@ public class PassportOfficeTest {
         PassportOffice office = new PassportOffice();
         office.add(citizen);
         office.add(citizen2);
-        List<Citizen> expected = new ArrayList<>(Arrays.asList(citizen, citizen2));
+        List<Citizen> expected = new ArrayList<>(List.of(citizen, citizen2));
         List<Citizen> rsl = new ArrayList<>();
         rsl.add(office.get(citizen.getPassport()));
         rsl.add(office.get(citizen2.getPassport()));
