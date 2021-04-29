@@ -18,6 +18,7 @@ public class BankService {
     /**
      * Метод добавляющий нового пользователя в систему.
      * Если пользователь уже существует, то повторное добавление не производится
+     *
      * @param user - добавляемый пользователь типа User
      */
     public void addUser(User user) {
@@ -27,47 +28,47 @@ public class BankService {
     /**
      * Метод добавляющий к существующему пользователю новый счет
      * Если такой счет уже у пользователя существует, то счет не добавляется
+     *
      * @param passport - паспорт пользователя, которому нужно добавить счет
      * @param account  - какой счет добавить
      */
     public void addAccount(String passport, Account account) {
-        User user;
-        user = findByPassport(passport);
-        List<Account> accountUser = users.get(user);
-        if (accountUser != null && !accountUser.contains(account)) {
-            accountUser.add(account);
+        Optional<User> user = findByPassport(passport);
+        if (user.isPresent()) {
+            List<Account> accountUser = users.get(user.get());
+            if (accountUser != null && !accountUser.contains(account)) {
+                accountUser.add(account);
+            }
         }
     }
 
     /**
      * Метод, ищущий пользователя в системе по его паспорту
+     *
      * @param passport - паспорт
-     * @return - найденный пользователь типа User или null, если пользователь не найден
+     * @return - Optinal найденный пользователь типа User
      */
-    public User findByPassport(String passport) {
+    public Optional<User> findByPassport(String passport) {
         return users.keySet()
                 .stream()
                 .filter(s -> s.getPassport().equals(passport))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     /**
      * Метод, ищущий счет по паспорту и реквизитам счета
+     *
      * @param passport  - паспорт пользователя
      * @param requisite - реквизиты счета
-     * @return найденный счет типа Account или null если аккаунт не найден
+     * @return Optinal найденный счет типа Account
      */
-    public Account findByRequisite(String passport, String requisite) {
-        User userFindByPasport = findByPassport(passport);
-        if (userFindByPasport != null) {
-            return users.get(findByPassport(passport))
-                    .stream()
-                    .filter(s -> s.getRequisite().equals(requisite))
-                    .findFirst()
-                    .orElse(null);
-        }
-        return null;
+    public Optional<Account> findByRequisite(String passport, String requisite) {
+        Optional<Account> rsl = Optional.empty();
+        Optional<User> userFindByPassport = findByPassport(passport);
+        return userFindByPassport.map(user -> users.get(user)
+                .stream()
+                .filter(s -> s.getRequisite().equals(requisite))
+                .findFirst()).orElse(rsl);
     }
 
     /**
@@ -86,13 +87,13 @@ public class BankService {
      */
     public boolean transferMoney(String srcPassport, String srcRequisite,
                                  String destPassport, String destRequisite, double amount) {
-        Account sourceAccount = findByRequisite(srcPassport, srcRequisite);
-        Account destAccount = findByRequisite(destPassport, destRequisite);
-        if (sourceAccount != null && destAccount != null
-                && sourceAccount.getBalance() >= amount) {
+        Optional<Account> sourceAccount = findByRequisite(srcPassport, srcRequisite);
+        Optional<Account> destAccount = findByRequisite(destPassport, destRequisite);
+        if (sourceAccount.isPresent() && destAccount.isPresent()
+                && sourceAccount.get().getBalance() >= amount) {
 
-            sourceAccount.setBalance(sourceAccount.getBalance() - amount);
-            destAccount.setBalance(destAccount.getBalance() + amount);
+            sourceAccount.get().setBalance(sourceAccount.get().getBalance() - amount);
+            destAccount.get().setBalance(destAccount.get().getBalance() + amount);
             return true;
         }
         return false;

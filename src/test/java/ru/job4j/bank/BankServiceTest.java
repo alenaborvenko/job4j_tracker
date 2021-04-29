@@ -3,8 +3,8 @@ package ru.job4j.bank;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 
 public class BankServiceTest {
 
@@ -13,7 +13,7 @@ public class BankServiceTest {
         User user = new User("3434", "Petr Arsentev");
         BankService bank = new BankService();
         bank.addUser(user);
-        assertThat(bank.findByPassport("3434"), is(user));
+        assertThat(bank.findByPassport("3434").get(), is(user));
     }
 
     @Test
@@ -22,7 +22,7 @@ public class BankServiceTest {
         BankService bank = new BankService();
         bank.addUser(user);
         bank.addAccount(user.getPassport(), new Account("5546", 150D));
-        assertThat(bank.findByRequisite("34", "5546"), is(nullValue()));
+        assertFalse(bank.findByRequisite("34", "5546").isPresent());
     }
 
     @Test
@@ -31,7 +31,7 @@ public class BankServiceTest {
         BankService bank = new BankService();
         bank.addUser(user);
         bank.addAccount(user.getPassport(), new Account("5546", 150D));
-        assertThat(bank.findByRequisite("3434", "5546").getBalance(), is(150D));
+        assertThat(bank.findByRequisite("3434", "5546").get().getBalance(), is(150D));
     }
 
     @Test
@@ -42,7 +42,7 @@ public class BankServiceTest {
         bank.addAccount(user.getPassport(), new Account("5546", 150D));
         bank.addAccount(user.getPassport(), new Account("113", 50D));
         bank.transferMoney(user.getPassport(), "5546", user.getPassport(), "113", 150D);
-        assertThat(bank.findByRequisite(user.getPassport(), "113").getBalance(), is(200D));
+        assertThat(bank.findByRequisite(user.getPassport(), "113").get().getBalance(), is(200D));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class BankServiceTest {
         bank.addUser(user);
         bank.addAccount(user.getPassport(), new Account("1111", 150D));
         bank.addAccount(user.getPassport(), new Account("1122", 300D));
-        assertThat(bank.findByRequisite("3434", "1122").getBalance(), is(300D));
+        assertThat(bank.findByRequisite("3434", "1122").get().getBalance(), is(300D));
     }
 
     @Test
@@ -78,7 +78,7 @@ public class BankServiceTest {
         bank.addAccount(user2.getPassport(), new Account("1122", 50D));
         bank.transferMoney(user.getPassport(), "1111",
                 user2.getPassport(), "1122", 10);
-        assertThat(bank.findByRequisite(user2.getPassport(), "1122").getBalance(), is(60D));
+        assertThat(bank.findByRequisite(user2.getPassport(), "1122").get().getBalance(), is(60D));
     }
 
     @Test
