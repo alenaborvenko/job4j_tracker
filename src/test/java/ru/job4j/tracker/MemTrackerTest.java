@@ -5,83 +5,83 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-public class TrackerTest {
+public class MemTrackerTest {
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         Item item;
         item = new Item();
         item.setName("test1");
-        tracker.add(item);
-        Item result = tracker.findById(item.getId());
+        memTracker.add(item);
+        Item result = memTracker.findById(item.getId());
         assertThat(result.getName(), is(item.getName()));
     }
 
     @Test
     public void whenReplace() {
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         Item bug = new Item();
         bug.setName("Bug");
-        tracker.add(bug);
+        memTracker.add(bug);
         int id = bug.getId();
         Item bugWithDesc = new Item();
         bugWithDesc.setName("Bug with description");
-        tracker.replace(id, bugWithDesc);
-        assertThat(tracker.findById(id).getName(), is("Bug with description"));
+        memTracker.replace(id, bugWithDesc);
+        assertThat(memTracker.findById(id).getName(), is("Bug with description"));
     }
 
     @Test
     public void whenReplaceNotFindId() {
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         int id = 0;
         Item bugWithDesc = new Item();
         bugWithDesc.setName("Bug with description");
-        boolean rsl = tracker.replace(id, bugWithDesc);
+        boolean rsl = memTracker.replace(id, bugWithDesc);
         assertThat(rsl, is(false));
     }
 
     @Test
     public void whenReplaceNotFindIdAfterCheckId() {
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         int id = 0;
         Item bugWithDesc = new Item();
         bugWithDesc.setName("Bug with description");
-        tracker.replace(id, bugWithDesc);
+        memTracker.replace(id, bugWithDesc);
         int rsl = bugWithDesc.getId();
         assertThat(rsl, is(0));
     }
 
     @Test
     public void whenDelete() {
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         Item bug = new Item();
         bug.setName("Bug");
-        tracker.add(bug);
+        memTracker.add(bug);
         int id = bug.getId();
-        tracker.delete(id);
-        assertThat(tracker.findById(id), is(nullValue()));
+        memTracker.delete(id);
+        assertThat(memTracker.findById(id), is(nullValue()));
     }
 
     @Test
     public void whenDeleteNotFoundId() {
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         int id = 0;
-        assertThat(tracker.delete(id),  is(false));
+        assertThat(memTracker.delete(id),  is(false));
     }
 
     @Test
     public void whenDeleteMiddle() {
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         Item first = new Item("first");
         Item second = new Item("second");
         Item third = new Item("third");
-        tracker.add(first);
-        tracker.add(second);
-        tracker.add(third);
+        memTracker.add(first);
+        memTracker.add(second);
+        memTracker.add(third);
         int id = second.getId();
-        tracker.delete(id);
-        assertThat(tracker.findById(first.getId()), is(first));
-        assertThat(tracker.findById(third.getId()), is(third));
-        assertThat(tracker.findById(id), is(nullValue()));
+        memTracker.delete(id);
+        assertThat(memTracker.findById(first.getId()), is(first));
+        assertThat(memTracker.findById(third.getId()), is(third));
+        assertThat(memTracker.findById(id), is(nullValue()));
     }
 }
