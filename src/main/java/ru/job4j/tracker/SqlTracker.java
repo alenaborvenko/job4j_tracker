@@ -119,12 +119,12 @@ public class SqlTracker implements Store {
 
     @Override
     public Item findById(int id) {
-        Item rsl = new Item();
         String sql = "select * from items where id = ?";
         try (PreparedStatement preparedStatement = cn.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             try (ResultSet rslSet = preparedStatement.executeQuery()) {
                 if (rslSet.next()) {
+                    Item rsl = new Item();
                     rsl.setId(rslSet.getInt("id"));
                     rsl.setName(rslSet.getString("name"));
                     return rsl;
@@ -133,6 +133,6 @@ public class SqlTracker implements Store {
         } catch (SQLException throwables) {
             System.out.println("Cant execute statement!");
         }
-        return rsl;
+        return null;
     }
 }
